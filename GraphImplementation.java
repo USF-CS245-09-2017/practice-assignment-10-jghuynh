@@ -1,8 +1,10 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class GraphImplementation {
+public class GraphImplementation implements Graph {
 
 
     private int[][] adjMatrix;
@@ -54,18 +56,24 @@ public class GraphImplementation {
 
 
         // my way
-        for (int row = 0; row < adjMatrix.length; row ++) {
-            for (int col = 0; col < adjMatrix.length; col ++) {
-                if (adjMatrix[row][col] > 0) {
+        for (int row = 0; row < this.adjMatrix.length; row ++) {
+            for (int col = 0; col < this.adjMatrix.length; col ++) {
+                if (adjMatrix[row][col] > 0 && !order.contains(adjMatrix[row][col])) {
                     order.add(row);
                     order.add(col);
                     row = col; // advance to next node, basically
                     col = 0; // reset column
                 }
-                else if (col == adjMatrix.length - 1) {
+                if (col == adjMatrix.length - 1) {
                     // if you managed to make it to the end and everything is 0 = no link!
+                    // stop. You're dead
+                    row = this.adjMatrix.length;
+                    col = this.adjMatrix.length;
+                    System.out.println();
 
                 }
+                // if found cycle
+                if ()
             }
         }
         System.out.println("Ordering: ");
@@ -79,7 +87,9 @@ public class GraphImplementation {
 
     private void DFS(int vertex, boolean[] visited) {
         visited[vertex] = true; // visited!
-        Iterator<Integer> neigh = neighbors(vertex).iterator();
+        int[] neighbor = neighbors(vertex);
+        List neighbors = Arrays.asList(neighbor);
+        Iterator<Integer> neigh = neighbors.iterator();
         while (neigh.hasNext()) {
             int n = neigh.next(); //advance to next neighbor
             if (!visited[n]) { // if n-next neighbor hasn't been visited yet

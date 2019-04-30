@@ -33,29 +33,38 @@ public class Practice10Test {
 		int items = 0;
 		for (int i = 0; i < neighbours.length; i++) {
 			++items;
-			if (neighbours[i] == 1)
-				contains1 = true;
-			if (neighbours[i] == 2)
-				contains2 = true;
+			if (neighbours[i] == 1) {
+                contains1 = true;
+            }
+
+			if (neighbours[i] == 2) {
+                contains2 = true;
+            }
+
 		}
-		
 		return contains1 && contains2 && items == 2;
 	}
 	
 	
 	public boolean topologicalSortTest() {
 		Graph g = getGraph(3);
-                int [] expected = {0, 2, 1};
+		int [] expected = {0, 2, 1};
 		
 		g.addEdge(0, 1);
 		g.addEdge(0, 2);
 		g.addEdge(2, 1);
 		List<Integer> schedule = g.topologicalSort();
 		if (schedule.size() != 3)
-			return false;
-                for (int i = 0; i < expected.length; i++)
-                	if (schedule.get(i) != expected[i])
-				return false;
+		{
+		    return false;
+        }
+        for (int i = 0; i < expected.length; i++)
+        {
+            if (schedule.get(i) != expected[i]) {
+                return false;
+            }
+
+        }
 		return true;
 	}
 

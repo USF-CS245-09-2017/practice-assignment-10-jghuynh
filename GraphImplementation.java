@@ -32,7 +32,6 @@ public class GraphImplementation implements Graph {
         // maybe add an inputValidation so users won't add too many points
         this.adjMatrix[begin][end] = 1;
         sum[end] ++;
-        System.out.println("sum[" + end + "] = " + sum[end]);
         neighborsSize ++;
 
     }
@@ -64,15 +63,30 @@ public class GraphImplementation implements Graph {
     public List<Integer> topologicalSort () {
         List<Integer> order = new ArrayList<Integer>();
         boolean[] visited = new boolean[adjMatrix.length];
-        System.out.println("Before Sorting:");
+        /*
+        //
+        System.out.println("Before Sorting: Sum:");
         for(int value: sum) {
             System.out.print(value + " ");
         }
         System.out.println();
+        //
+        */
         for (int index = 0; index < adjMatrix.length; index ++) {
-            order.add(zeroCount(sum));
+                order.add(zeroCount(sum));
         }
-        System.out.println("David's Way: Order: ");
+        if (order.contains(-1)) {
+            System.out.println("Graph has cycle!");
+            System.out.println("Partial order: ");
+            for (int value: order) {
+                if (value != -1)
+                {
+                    System.out.print(value + " ");
+                }
+            }
+            return order;
+        }
+        System.out.println("Order: ");
         for (int value: order) {
             System.out.print(value + " ");
         }
@@ -82,11 +96,15 @@ public class GraphImplementation implements Graph {
 
         // my way
         //updateSum();
+        /*
         System.out.println("Sum array:");
         for (int value: sum) {
             System.out.print(value + " ");
         }
         System.out.println();
+        */
+        return order;
+        /*
         for (int row = 0; row < this.adjMatrix.length; row ++) {
             for (int col = 0; col < this.adjMatrix.length; col ++) {
                 if (adjMatrix[row][col] > 0 && !order.contains(col)) {
@@ -120,6 +138,7 @@ public class GraphImplementation implements Graph {
 
         }
         return order;
+        */
 
     }
 
@@ -206,6 +225,7 @@ public class GraphImplementation implements Graph {
         myG.addEdge(2, 1);
         myG.addEdge(1, 3);
         myG.addEdge(3, 4);
+        myG.addEdge(4, 2);
         myG.topologicalSort();
     }
 

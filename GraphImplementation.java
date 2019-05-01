@@ -1,16 +1,19 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.Queue;
+import java.util.LinkedList;
 
+/**
+ * Creates a graph
+ */
 public class GraphImplementation implements Graph {
 
 
     private int[][] adjMatrix;
     private int[] sum;
-    private int size;
+    private int graphSize;
     private int neighborsSize;
+    private Queue points;
+    private int numPoints;
 
     /**
      * Constructs an object of type GraphImplementation
@@ -19,8 +22,11 @@ public class GraphImplementation implements Graph {
     public GraphImplementation(int n){
         // vertices from 0---n-1
          this.adjMatrix = new int[n][n];
-         this.size = n;
+         this.graphSize = n;
          this.sum = new int[n];
+         points = new LinkedList();
+         numPoints = 0;
+
     }
 
     /**
@@ -30,6 +36,20 @@ public class GraphImplementation implements Graph {
      */
     public void addEdge (int begin, int end) {
         // maybe add an inputValidation so users won't add too many points
+        if (!points.contains(begin)) {
+            points.add(begin);
+            numPoints++;
+        }
+        if (!points.contains(end)) {
+            points.add(end);
+            numPoints++;
+        }
+        // if added too many points
+        if (numPoints > this.graphSize) {
+            System.out.println("Implemented too may points! Erasing this edge");
+            return;
+        }
+        this.graphSize++;
         this.adjMatrix[begin][end] = 1;
         sum[end] ++;
         neighborsSize ++;
@@ -42,14 +62,13 @@ public class GraphImplementation implements Graph {
      * @return the array of neighbors
      */
     public int[] neighbors (int vertex) {
-        // question: why should
         int[] neighbors = new int[neighborsSize];
         int neighIndex = 0;
         for (int index = 0; index < adjMatrix.length; index ++) {
             if (adjMatrix[vertex][index] > 0) {
                 neighbors[neighIndex] = index;
                 neighIndex ++;
-                // implementation is correct...now make sure neighbors is just size 2, not 3...
+                // implementation is correct...now make sure neighbors is just graphSize 2, not 3...
             }
 
         }
